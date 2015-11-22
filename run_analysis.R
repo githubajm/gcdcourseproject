@@ -75,22 +75,22 @@ clearGobalEnv <- function()
      # clear all the named tables used from the global environment
      # note: this removes only the ones read in from the files
      message("Clearing variables read from files used by this program from the GlobalEnv")
-     if (exists("activityLabels"))
-          remove("activityLabels")
-     if (exists("featureNames"))
-          remove("featureNames")
-     if (exists("testSubject"))
-          remove("testSubject")
-     if (exists("testActivity"))
-          remove("testActivity")
-     if (exists("testData"))
-          remove("testData")
-     if (exists("trainSubject"))
-          remove("trainSubject")
-     if (exists("trainActivity"))
-          remove("trainActivity")
-     if (exists("trainData"))
-          remove("trainData")      
+     if (exists("activityLabels", envir = .GlobalEnv))
+          remove("activityLabels", envir = .GlobalEnv)
+     if (exists("featureNames", envir = .GlobalEnv))
+          remove("featureNames", envir = .GlobalEnv)
+     if (exists("testSubject", envir = .GlobalEnv))
+          remove("testSubject", envir = .GlobalEnv)
+     if (exists("testActivity", envir = .GlobalEnv))
+          remove("testActivity", envir = .GlobalEnv)
+     if (exists("testData", envir = .GlobalEnv))
+          remove("testData", envir = .GlobalEnv)
+     if (exists("trainSubject", envir = .GlobalEnv))
+          remove("trainSubject", envir = .GlobalEnv)
+     if (exists("trainActivity", envir = .GlobalEnv))
+          remove("trainActivity", envir = .GlobalEnv)
+     if (exists("trainData", envir = .GlobalEnv))
+          remove("trainData", envir = .GlobalEnv)      
 }
 
 # ----------------------------------
@@ -186,25 +186,25 @@ run_analysis_main <- function(datasetPath = ".",
           clearGobalEnv()
      
      # build and get the list of filenames
-     fList <- buildFilenameList(datasetPath)
+     filenameList <- buildFilenameList(datasetPath)
      
      # load the activity labels and feature names
-     activityLabels <- loadTableFromFile("activityLabels", fList$activityLabelsFilename, useGlobalEnv)
-     featureNames   <- loadTableFromFile("featureNames", fList$featureNamesFilename, useGlobalEnv)
+     activityLabels <- loadTableFromFile("activityLabels", filenameList$activityLabelsFilename, useGlobalEnv)
+     featureNames   <- loadTableFromFile("featureNames", filenameList$featureNamesFilename, useGlobalEnv)
      
      # rename the columns of the two data frames to something more useful
      names(activityLabels) <- c("ActivityCategory", "ActivityName")
      names(featureNames) <- c("FeatureIndex", "FeatureName")
      
      # load the test data
-     testSubject  <- loadTableFromFile("testSubject", fList$testSubjectFilename, useGlobalEnv)
-     testActivity <- loadTableFromFile("testActivity", fList$testActivityFilename, useGlobalEnv)
-     testData     <- loadTableFromFile("testData", fList$testDataFilename, useGlobalEnv)
+     testSubject  <- loadTableFromFile("testSubject", filenameList$testSubjectFilename, useGlobalEnv)
+     testActivity <- loadTableFromFile("testActivity", filenameList$testActivityFilename, useGlobalEnv)
+     testData     <- loadTableFromFile("testData", filenameList$testDataFilename, useGlobalEnv)
      
      # load the training data
-     trainSubject  <- loadTableFromFile("trainSubject", fList$trainSubjectFilename, useGlobalEnv)
-     trainActivity <- loadTableFromFile("trainActivity", fList$trainActivityFilename, useGlobalEnv)
-     trainData     <- loadTableFromFile("trainData", fList$trainDataFilename, useGlobalEnv)     
+     trainSubject  <- loadTableFromFile("trainSubject", filenameList$trainSubjectFilename, useGlobalEnv)
+     trainActivity <- loadTableFromFile("trainActivity", filenameList$trainActivityFilename, useGlobalEnv)
+     trainData     <- loadTableFromFile("trainData", filenameList$trainDataFilename, useGlobalEnv)     
      
      # get the features of interest in this project, mean and std
      meanVarIndicies <- grep("mean()", featureNames$FeatureName, fixed = TRUE)
